@@ -40,8 +40,15 @@ body {
 .start-page h1 {
     font-size: 1.6rem;
     color: #2c3e50;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     font-weight: 600;
+}
+
+.start-page .subtitle {
+    color: #95a5a6;
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+    font-style: italic;
 }
 
 .start-page p {
@@ -67,6 +74,12 @@ body {
     margin-bottom: 0;
     font-size: 0.8rem;
     color: #95a5a6;
+}
+
+.start-page .credits {
+    margin-top: 24px;
+    font-size: 0.75rem;
+    color: #bdc3c7;
 }
 
 .btn {
