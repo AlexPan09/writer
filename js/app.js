@@ -18,26 +18,26 @@ const PERSONALITIES = {
     },
     "蚕人": {
         image: "./asset/iron-man.png",
-        description: "你的写作人格特点为：蚕人。"
+        description: "你的写作人格特点为：蚕人。\n吃进去的是桑叶，吐出来的是蚕丝。你无声又勤恳地默默写作，细致入微地观察着世界的花纹，持续产出大量细腻又有序的丝线将自己包裹。相信假以时日，你终将有化蛹成蝶亦或织就丝绸的一天。"
     },
     "火人": {
         image: "./asset/iron-man.png",
-        description: "你的写作人格特点为：火人。"
+        description: "你的写作人格特点为：火人。\n燃烧！燃烧！你灵魂燃烧的能量不断驱策着你，你甚至不能主动让这种燃烧停下来。你的情感为你的燃烧提供可燃物，而生活体验如同鼓风机让火焰越发旺盛。"
     },
     "蛾人": {
         image: "./asset/moth-person.png",
-        description: "你的写作人格特点为：蛾人。"
+        description: "你的写作人格特点为：蛾人。\n你凭借超乎他人的直觉在世界中穿梭，用触角细细探知每一处缝隙，发现各种他人发现不了的奇妙事物。你是连滚烫的灯芯也愿意触碰的飞蛾，毕竟，烫伤也是一种危险又独特的体验。"
     },
     "老师": {
         image: "./asset/teacher.png",
-        description: "你的写作人格特点为：老师。"
+        description: "你的写作人格特点为：老师。\n你和对待工作一样对待写作，和对待学生一般对待读者。你愿意寻觅更准确更权威的表达方法，将自己对世界的哲思由浅入深、简明清晰地传达给别人。"
     },
     "导游": {
         image: "./asset/tour-guide.png",
         description: "你的写作人格特点为：导游。\n你有旺盛的精力和表达欲，你明白如何将那些读者游客们带入你的小说世界。你有导游般的职业素养，手握指挥棒般的小旗子，引人入胜地叙述着你精神世界中丰富多彩的一处又一处景观。"
     },
     "蒙眼人": {
-        image: "./asset/iron-man.png",
+        image: "./asset/blindfolded-writer.png",
         description: "你的写作人格特点为：蒙眼人。\n你能清晰地听到自我内心的声音，构筑内心的世界，并持续将其外化为笔下的文字。虽然闭着眼睛写字有时会歪歪扭扭，但也可以感受到更多他人感受不到的东西，不是吗？"
     },
     "鸟人": {
@@ -54,7 +54,7 @@ const PERSONALITIES = {
     },
     "比格": {
         image: "./asset/iron-man.png",
-        description: "你的写作人格特点为：比格。\n比格大人就是要大声喊叫！哪怕世界要你住口，你也会用尽力气发出ververver的叫喊，不论别人能否理解，你的存在感都会径直穿破所有人的耳膜。"
+        description: "你的写作人格特点为：比格。\n比格大王就是要随心所欲地大声喊叫！哪怕世界要你住口，你也会用尽力气发出ververver的叫喊，不论别人能否理解，你的存在感都会径直穿破所有人的耳膜。"
     },
     "累人": {
         image: "./asset/iron-man.png",
@@ -78,7 +78,7 @@ const PERSONALITIES = {
     },
     "新人": {
         image: "./asset/iron-man.png",
-        description: "你触发了隐藏结局：新人。\n你的创作历程才刚刚开始，写作的大门永远向你敞开。祝你笔耕不辍，愿你写得开心。另外，你目前的隐藏写作人格为：【插入判定名称】，该人格特性为：【插入描述】。"
+        description: "你触发了隐藏结局：新人。\n你的创作历程才刚刚开始，写作的大门永远向你敞开。祝你笔耕不辍，愿你写得开心。"
     }
 };
 
@@ -133,7 +133,12 @@ const elements = {
     resultContainer: document.getElementById('resultContainer'),
     personalityImage: document.getElementById('personalityImage'),
     personalityName: document.getElementById('personalityName'),
-    personalityDescription: document.getElementById('personalityDescription')
+    personalityDescription: document.getElementById('personalityDescription'),
+    resultTitle: document.getElementById('resultTitle'),
+    hiddenPersonalitySection: document.getElementById('hiddenPersonalitySection'),
+    hiddenPersonalityImage: document.getElementById('hiddenPersonalityImage'),
+    hiddenPersonalityName: document.getElementById('hiddenPersonalityName'),
+    hiddenPersonalityDescription: document.getElementById('hiddenPersonalityDescription')
 };
 
 // 初始化
@@ -300,22 +305,46 @@ function showResults() {
         }
     });
 
-    // 判断人格类型（如果触发隐藏结果，显示"新人"）
-    let personalityType, personalityData;
+    // 判断人格类型
+    const normalPersonalityType = determinePersonality(categoryScores);
+    const normalPersonalityData = PERSONALITIES[normalPersonalityType] || PERSONALITIES["铁人"];
+    
+    // 如果触发隐藏结果，显示"新人"作为主人格，否则显示正常人格
+    let displayPersonalityType, displayPersonalityData;
     if (triggerHiddenResult) {
-        personalityType = "新人";
-        personalityData = PERSONALITIES["新人"];
+        displayPersonalityType = "新人";
+        displayPersonalityData = PERSONALITIES["新人"];
     } else {
-        personalityType = determinePersonality(categoryScores);
-        personalityData = PERSONALITIES[personalityType] || PERSONALITIES["铁人"];
+        displayPersonalityType = normalPersonalityType;
+        displayPersonalityData = normalPersonalityData;
     }
     
     // 设置人格图片和名称
-    elements.personalityImage.src = personalityData.image;
-    elements.personalityName.textContent = personalityType;
+    elements.personalityImage.src = displayPersonalityData.image;
+    elements.personalityName.textContent = displayPersonalityType;
+    
+    // 如果是新人结果，添加彩虹边框样式
+    if (triggerHiddenResult) {
+        elements.personalityImage.classList.add('rainbow-border');
+    } else {
+        elements.personalityImage.classList.remove('rainbow-border');
+    }
     
     // 设置人格描述
-    elements.personalityDescription.textContent = personalityData.description;
+    elements.personalityDescription.textContent = displayPersonalityData.description;
+    
+    // 设置标题
+    elements.resultTitle.textContent = triggerHiddenResult ? '你触发了隐藏结局' : '你的写作人格特点为';
+    
+    // 如果触发隐藏结果，显示隐藏人格区域（显示正常人格）
+    if (triggerHiddenResult) {
+        elements.hiddenPersonalitySection.style.display = 'block';
+        elements.hiddenPersonalityImage.src = normalPersonalityData.image;
+        elements.hiddenPersonalityName.textContent = normalPersonalityType;
+        elements.hiddenPersonalityDescription.textContent = normalPersonalityData.description;
+    } else {
+        elements.hiddenPersonalitySection.style.display = 'none';
+    }
 
     // 渲染结果
     elements.resultContainer.innerHTML = '';

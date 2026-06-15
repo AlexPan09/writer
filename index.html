@@ -39,7 +39,7 @@
 
         <!-- 结果页面 -->
         <div class="result-page" id="resultPage">
-            <h2>你的写作人格特点为</h2>
+            <h2 id="resultTitle">你的写作人格特点为</h2>
             
             <!-- 人格图片区域 -->
             <div class="personality-image-container">
@@ -52,6 +52,17 @@
             
             <!-- 人格描述区域 -->
             <div id="personalityDescription" class="personality-description"></div>
+            
+            <!-- 隐藏人格区域 -->
+            <div id="hiddenPersonalitySection" class="hidden-personality-section">
+                <p class="hidden-personality-label">另外……</p>
+                <p class="hidden-personality-title">你目前的隐藏人格为</p>
+                <div class="personality-image-container">
+                    <img id="hiddenPersonalityImage" src="" alt="隐藏人格形象" class="personality-image">
+                    <div id="hiddenPersonalityName" class="personality-name"></div>
+                </div>
+                <div id="hiddenPersonalityDescription" class="personality-description"></div>
+            </div>
             
             <button class="btn restart-btn" onclick="restartQuiz()">重新测试</button>
         </div>
