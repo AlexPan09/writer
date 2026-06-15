@@ -17,11 +17,11 @@ const PERSONALITIES = {
         description: "你的写作人格特点为：铁人。\n你在键盘上奋力敲击，对待写作认真努力，不断铸造自己，任何困难都不能将你击倒。只要写不死，就往死里写。你相信天道酬勤，写作是你人生中的重要赛场之一，而你身为铁人，铁人三项势必跨越一切障碍。"
     },
     "蚕人": {
-        image: "./asset/iron-man.png",
+        image: "./asset/silkworm.png",
         description: "你的写作人格特点为：蚕人。\n吃进去的是桑叶，吐出来的是蚕丝。你无声又勤恳地默默写作，细致入微地观察着世界的花纹，持续产出大量细腻又有序的丝线将自己包裹。相信假以时日，你终将有化蛹成蝶亦或织就丝绸的一天。"
     },
     "火人": {
-        image: "./asset/iron-man.png",
+        image: "./asset/fire-man.png",
         description: "你的写作人格特点为：火人。\n燃烧！燃烧！你灵魂燃烧的能量不断驱策着你，你甚至不能主动让这种燃烧停下来。你的情感为你的燃烧提供可燃物，而生活体验如同鼓风机让火焰越发旺盛。"
     },
     "蛾人": {
@@ -41,7 +41,7 @@ const PERSONALITIES = {
         description: "你的写作人格特点为：蒙眼人。\n你能清晰地听到自我内心的声音，构筑内心的世界，并持续将其外化为笔下的文字。虽然闭着眼睛写字有时会歪歪扭扭，但也可以感受到更多他人感受不到的东西，不是吗？"
     },
     "鸟人": {
-        image: "./asset/iron-man.png",
+        image: "./asset/bird.png",
         description: "你的写作人格特点为：鸟人。\n你像蜂鸟一样不知疲倦，你敏锐地捕捉世界的细节，事无巨细地讲述所感知的一切。哪怕他人不理解你，发出这是什么鸟人的攻击话语，你也只会无视这些噪音，继续翱翔于文字的广阔天空。"
     },
     "发条人": {
@@ -53,11 +53,11 @@ const PERSONALITIES = {
         description: "你的写作人格特点为：麻花。\n你不愿意被写作的各种疲惫与困难束缚，同时期望着有一鸣惊人的成就；你关注着哪种写作手段可以获得更多的青睐，但也不愿意放弃自己已经认定的写作路径。纠结的麻花是你的底色，正在被写作的油锅烹炸得金黄酥脆。"
     },
     "比格": {
-        image: "./asset/iron-man.png",
+        image: "./asset/beagle.png",
         description: "你的写作人格特点为：比格。\n比格大王就是要随心所欲地大声喊叫！哪怕世界要你住口，你也会用尽力气发出ververver的叫喊，不论别人能否理解，你的存在感都会径直穿破所有人的耳膜。"
     },
     "累人": {
-        image: "./asset/iron-man.png",
+        image: "./asset/tired-man.png",
         description: "你的写作人格特点为：累人。\n不是身累，而是心累，你拥有敏感的天赋，将生活中的各种细节捕捉为灵感，然而常常陷入千里马难遇伯乐的僵局。你只是缺少一个机会——是金子，总会发光的。"
     },
     "文臣": {
@@ -77,7 +77,7 @@ const PERSONALITIES = {
         description: "你的写作人格特点为：猫猫人。\n猫猫享受世界，猫猫拒绝焦虑，猫猫每天都晒太阳打盹，猫猫喜欢做游戏。猫猫幸福了就喵几嗓子，猫猫眼里崭新的钞票还不如纸团子可爱。猫猫人只想在写作的世界里做一只不在乎他人眼光的，幸福享受文字的猫猫。"
     },
     "新人": {
-        image: "./asset/iron-man.png",
+        image: "./asset/newcomer.png",
         description: "你触发了隐藏结局：新人。\n你的创作历程才刚刚开始，写作的大门永远向你敞开。祝你笔耕不辍，愿你写得开心。"
     }
 };
@@ -131,6 +131,7 @@ const elements = {
     prevBtn: document.getElementById('prevBtn'),
     nextBtn: document.getElementById('nextBtn'),
     resultContainer: document.getElementById('resultContainer'),
+    hiddenResultContainer: document.getElementById('hiddenResultContainer'),
     personalityImage: document.getElementById('personalityImage'),
     personalityName: document.getElementById('personalityName'),
     personalityDescription: document.getElementById('personalityDescription'),
@@ -346,16 +347,29 @@ function showResults() {
         elements.hiddenPersonalitySection.style.display = 'none';
     }
 
-    // 渲染结果
+    // 根据是否触发隐藏结局决定进度条显示位置
+    const targetContainer = triggerHiddenResult ? elements.hiddenResultContainer : elements.resultContainer;
+    
+    // 清空两个容器
     elements.resultContainer.innerHTML = '';
+    elements.hiddenResultContainer.innerHTML = '';
 
-    CONFIG.CATEGORIES.forEach(cat => {
+    // 确保两个容器都有正确的显示状态
+    if (triggerHiddenResult) {
+        elements.resultContainer.style.display = 'none';
+        elements.hiddenResultContainer.style.display = 'block';
+    } else {
+        elements.resultContainer.style.display = 'block';
+        elements.hiddenResultContainer.style.display = 'none';
+    }
+
+    CONFIG.CATEGORIES.forEach((cat, index) => {
         const score = categoryScores[cat.name];
         const maxScore = cat.maxScore;
         const percentage = Math.min(100, Math.max(0, (score / maxScore) * 100));
 
         const item = document.createElement('div');
-        item.className = 'result-item';
+        item.className = `result-item category-${index}`;
         item.innerHTML = `
             <div class="result-label">
                 <span class="${percentage < 50 ? 'active' : ''}">${cat.name.split('/')[1]}</span>
@@ -368,7 +382,7 @@ function showResults() {
                 <div class="result-marker" style="left: 50%"></div>
             </div>
         `;
-        elements.resultContainer.appendChild(item);
+        targetContainer.appendChild(item);
 
         // 动画延迟执行
         setTimeout(() => {

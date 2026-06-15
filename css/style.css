@@ -6,7 +6,7 @@
 
 body {
     font-family: 'PingFang SC', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(180deg, #f5f7fa 0%, #e4e8ec 100%);
+    background: #e0e5ec;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -16,15 +16,15 @@ body {
 }
 
 .container {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    background: #e0e5ec;
+    border-radius: 24px;
     width: 100%;
     max-width: 420px;
-    padding: 24px;
+    padding: 32px 24px;
     min-height: calc(100vh - 72px);
     display: flex;
     flex-direction: column;
+    box-shadow: none;
 }
 
 /* 开始页面 */
@@ -38,70 +38,83 @@ body {
 }
 
 .start-page h1 {
-    font-size: 1.6rem;
-    color: #2c3e50;
+    font-size: 1.8rem;
+    color: #5a6c7d;
     margin-bottom: 8px;
     font-weight: 600;
+    text-shadow: 2px 2px 4px rgba(163, 177, 198, 0.6);
 }
 
 .start-page .subtitle {
-    color: #95a5a6;
-    font-size: 0.85rem;
+    color: #8899aa;
+    font-size: 0.9rem;
     margin-bottom: 16px;
     font-style: italic;
 }
 
 .start-page p {
-    color: #7f8c8d;
-    font-size: 0.9rem;
-    line-height: 1.6;
+    color: #7a8a9a;
+    font-size: 0.95rem;
+    line-height: 1.7;
     margin-bottom: 24px;
 }
 
 .start-page .info {
-    background: #f8f9fa;
-    padding: 16px;
-    border-radius: 12px;
-    margin-bottom: 24px;
+    background: #e0e5ec;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 28px;
     width: 100%;
+    box-shadow: 
+        8px 8px 16px #b8bec7,
+        -8px -8px 16px #ffffff;
 }
 
 .start-page .info p {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .start-page .info p:last-child {
     margin-bottom: 0;
-    font-size: 0.8rem;
-    color: #95a5a6;
+    font-size: 0.85rem;
+    color: #8899aa;
 }
 
 .start-page .credits {
-    margin-top: 24px;
-    font-size: 0.75rem;
-    color: #bdc3c7;
+    margin-top: 28px;
+    font-size: 0.8rem;
+    color: #aab0ba;
 }
 
+/* 按钮基础样式 - Neumorphism凸起效果 */
 .btn {
-    background: linear-gradient(135deg, #4a69bd 0%, #6a89cc 100%);
-    color: white;
+    background: #e0e5ec;
+    color: #5a6c7d;
     border: none;
-    padding: 14px 32px;
+    padding: 16px 36px;
     font-size: 1rem;
-    border-radius: 30px;
+    border-radius: 50px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
     font-weight: 500;
     width: 100%;
     max-width: 200px;
+    box-shadow: 
+        6px 6px 12px #b8bec7,
+        -6px -6px 12px #ffffff;
 }
 
 .btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(74, 105, 189, 0.3);
+    box-shadow: 
+        8px 8px 16px #b8bec7,
+        -8px -8px 16px #ffffff;
+    transform: translateY(-2px);
 }
 
 .btn:active {
+    box-shadow: 
+        inset 4px 4px 8px #b8bec7,
+        inset -4px -4px 8px #ffffff;
     transform: translateY(0);
 }
 
@@ -109,16 +122,20 @@ body {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
+    box-shadow: 
+        3px 3px 6px #b8bec7,
+        -3px -3px 6px #ffffff;
 }
 
 .btn-secondary {
-    background: #ecf0f1;
-    color: #7f8c8d;
+    background: #e0e5ec;
+    color: #6a7a8a;
 }
 
 .btn-secondary:hover {
-    background: #e0e5e6;
-    box-shadow: none;
+    box-shadow: 
+        8px 8px 16px #b8bec7,
+        -8px -8px 16px #ffffff;
 }
 
 /* 答题页面 */
@@ -128,19 +145,25 @@ body {
     flex-direction: column;
 }
 
+/* Neumorphism凹陷进度条 */
 .progress-bar {
-    height: 4px;
-    background: #ecf0f1;
-    border-radius: 2px;
-    margin-bottom: 20px;
+    height: 12px;
+    background: #e0e5ec;
+    border-radius: 6px;
+    margin-bottom: 24px;
     overflow: hidden;
+    box-shadow: 
+        inset 4px 4px 8px #b8bec7,
+        inset -4px -4px 8px #ffffff;
 }
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #4a69bd 0%, #6a89cc 100%);
-    border-radius: 2px;
-    transition: width 0.3s ease;
+    background: linear-gradient(145deg, #6a8cbd, #5a7cad);
+    border-radius: 6px;
+    transition: width 0.4s ease;
+    box-shadow: 
+        inset 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .question-header {
@@ -151,57 +174,65 @@ body {
 }
 
 .question-number {
-    color: #95a5a6;
-    font-size: 0.85rem;
+    color: #8899aa;
+    font-size: 0.9rem;
 }
 
 .question-text {
-    font-size: 1.1rem;
-    color: #2c3e50;
-    margin-bottom: 20px;
-    line-height: 1.6;
+    font-size: 1.15rem;
+    color: #5a6c7d;
+    margin-bottom: 24px;
+    line-height: 1.7;
     font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(163, 177, 198, 0.5);
 }
 
+/* Neumorphism选项卡片 */
 .options {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 14px;
+    margin-bottom: 24px;
 }
 
 .option {
-    padding: 14px 16px;
-    border: 1px solid #e0e5e6;
-    border-radius: 12px;
+    padding: 18px 20px;
+    background: #e0e5ec;
+    border-radius: 16px;
     cursor: pointer;
-    transition: all 0.2s;
-    font-size: 0.9rem;
-    color: #2c3e50;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    color: #5a6c7d;
     text-align: left;
-    background: white;
+    box-shadow: 
+        5px 5px 10px #b8bec7,
+        -5px -5px 10px #ffffff;
 }
 
 .option:hover {
-    border-color: #4a69bd;
-    background: #f8fafc;
+    box-shadow: 
+        7px 7px 14px #b8bec7,
+        -7px -7px 14px #ffffff;
 }
 
 .option.selected {
-    border-color: #4a69bd;
-    background: linear-gradient(135deg, rgba(74, 105, 189, 0.08) 0%, rgba(106, 137, 204, 0.08) 100%);
+    box-shadow: 
+        inset 4px 4px 8px #b8bec7,
+        inset -4px -4px 8px #ffffff;
+    color: #4a6a8d;
+    font-weight: 500;
 }
 
 .navigation {
     display: flex;
     justify-content: space-between;
-    gap: 12px;
+    gap: 14px;
 }
 
 .navigation .btn {
     flex: 1;
-    padding: 12px 16px;
+    padding: 14px 18px;
     max-width: none;
 }
 
@@ -214,35 +245,39 @@ body {
 
 .result-page h2 {
     text-align: center;
-    font-size: 1.3rem;
-    color: #2c3e50;
-    margin-bottom: 24px;
+    font-size: 1.4rem;
+    color: #5a6c7d;
+    margin-bottom: 28px;
     font-weight: 600;
+    text-shadow: 2px 2px 4px rgba(163, 177, 198, 0.6);
 }
 
-/* 人格图片区域 */
+/* 人格图片区域 - Neumorphism凸起效果 */
 .personality-image-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
 .personality-image {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #4a69bd;
-    box-shadow: 0 4px 12px rgba(74, 105, 189, 0.2);
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    background: #e0e5ec;
+    box-shadow: 
+        8px 8px 16px #b8bec7,
+        -8px -8px 16px #ffffff;
 }
 
 .personality-image.rainbow-border {
-    border: none;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
-    padding: 3px;
+    background: linear-gradient(145deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+    padding: 4px;
+    box-shadow: 
+        8px 8px 16px #b8bec7,
+        -8px -8px 16px #ffffff;
 }
 
 .personality-image.rainbow-border img {
@@ -250,128 +285,179 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-.hidden-personality-section .personality-image {
-    border: 3px solid #4a69bd;
-    box-shadow: 0 4px 12px rgba(74, 105, 189, 0.2);
+    background: #e0e5ec;
 }
 
 .personality-name {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: #5a6c7d;
     text-align: center;
+    text-shadow: 2px 2px 4px rgba(163, 177, 198, 0.5);
 }
 
 .result-item {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
-/* 人格描述区域 */
+/* 人格描述区域 - Neumorphism凹陷效果 */
 .personality-description {
-    background: linear-gradient(135deg, rgba(74, 105, 189, 0.05) 0%, rgba(106, 137, 204, 0.05) 100%);
-    border-radius: 16px;
-    padding: 20px;
-    margin: 24px 0;
+    background: #e0e5ec;
+    border-radius: 20px;
+    padding: 24px;
+    margin: 28px 0;
     font-size: 0.95rem;
-    line-height: 1.7;
-    color: #4a5568;
+    line-height: 1.8;
+    color: #5a6c7d;
     text-align: justify;
-    border: 1px solid rgba(74, 105, 189, 0.1);
+    box-shadow: 
+        inset 6px 6px 12px #b8bec7,
+        inset -6px -6px 12px #ffffff;
 }
 
 /* 隐藏人格区域 */
 .hidden-personality-section {
     display: none;
-    margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px dashed #ddd;
+    margin-top: 36px;
+    padding-top: 28px;
 }
 
 .hidden-personality-label {
     text-align: center;
-    font-size: 0.9rem;
-    color: #95a5a6;
+    font-size: 0.95rem;
+    color: #8899aa;
     font-style: italic;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .hidden-personality-title {
     text-align: center;
-    font-size: 0.95rem;
-    color: #2c3e50;
+    font-size: 1rem;
+    color: #5a6c7d;
     font-weight: 500;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
+/* 结果标签 */
 .result-label {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
 }
 
 .result-label span {
-    color: #7f8c8d;
+    color: #8899aa;
     font-weight: normal;
     transition: all 0.3s ease;
 }
 
 .result-label span.active {
-    color: #2c3e50;
+    color: #5a6c7d;
     font-weight: 600;
 }
 
+/* 结果进度条 - Neumorphism凹陷效果 */
 .result-bar-container {
     position: relative;
-    height: 14px;
-    background: #ecf0f1;
-    border-radius: 7px;
+    height: 16px;
+    background: #e0e5ec;
+    border-radius: 8px;
     overflow: visible;
+    box-shadow: 
+        inset 3px 3px 6px #b8bec7,
+        inset -3px -3px 6px #ffffff;
 }
 
 .result-bar-bg {
     position: absolute;
     left: 50%;
     top: 0;
-    width: 1px;
+    width: 2px;
     height: 100%;
-    background: #bdc3c7;
+    background: linear-gradient(to bottom, #a0aab5, #c0c8d0);
+    border-radius: 1px;
 }
 
 .result-bar-fill {
     position: absolute;
-    top: 0;
-    height: 100%;
+    top: 2px;
+    height: calc(100% - 4px);
     transition: all 0.8s ease;
     min-width: 0;
+    box-shadow: 
+        2px 2px 4px rgba(163, 177, 198, 0.5),
+        -2px -2px 4px rgba(255, 255, 255, 0.8);
 }
 
-.result-bar-fill.positive {
+/* 勤奋/随性 - 蓝色系 */
+.category-0 .result-bar-fill.positive {
     left: 50%;
     width: 0;
-    background: linear-gradient(90deg, #4a69bd 0%, #6a89cc 100%);
-    border-radius: 0 7px 7px 0;
+    background: linear-gradient(145deg, #7ca5d8, #6b94c8);
+    border-radius: 0 6px 6px 0;
 }
-
-.result-bar-fill.negative {
+.category-0 .result-bar-fill.negative {
     right: 50%;
     width: 0;
-    background: linear-gradient(270deg, #9b59b6 0%, #be90d4 100%);
-    border-radius: 7px 0 0 7px;
+    background: linear-gradient(145deg, #a5c8e8, #94b7d8);
+    border-radius: 6px 0 0 6px;
+}
+
+/* 竞争/表达 - 暖色系 */
+.category-1 .result-bar-fill.positive {
+    left: 50%;
+    width: 0;
+    background: linear-gradient(145deg, #d8a57c, #c8946b);
+    border-radius: 0 6px 6px 0;
+}
+.category-1 .result-bar-fill.negative {
+    right: 50%;
+    width: 0;
+    background: linear-gradient(145deg, #e8c8a5, #d8b794);
+    border-radius: 6px 0 0 6px;
+}
+
+/* 方法/直觉 - 绿色系 */
+.category-2 .result-bar-fill.positive {
+    left: 50%;
+    width: 0;
+    background: linear-gradient(145deg, #7cd8a5, #6bc894);
+    border-radius: 0 6px 6px 0;
+}
+.category-2 .result-bar-fill.negative {
+    right: 50%;
+    width: 0;
+    background: linear-gradient(145deg, #a5e8c8, #94d8b7);
+    border-radius: 6px 0 0 6px;
+}
+
+/* 扼要/细腻 - 紫色系 */
+.category-3 .result-bar-fill.positive {
+    left: 50%;
+    width: 0;
+    background: linear-gradient(145deg, #a57cd8, #946bc8);
+    border-radius: 0 6px 6px 0;
+}
+.category-3 .result-bar-fill.negative {
+    right: 50%;
+    width: 0;
+    background: linear-gradient(145deg, #c8a5e8, #b794d8);
+    border-radius: 6px 0 0 6px;
 }
 
 .result-marker {
     position: absolute;
     top: 50%;
-    width: 14px;
-    height: 14px;
-    background: white;
+    width: 16px;
+    height: 16px;
+    background: #e0e5ec;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: translate(-50%, -50%);
-    border: 2px solid #4a69bd;
+    border: 2px solid #6a8cbd;
+    box-shadow: 
+        3px 3px 6px #b8bec7,
+        -3px -3px 6px #ffffff;
     transition: left 0.8s ease;
 }
 
@@ -387,10 +473,10 @@ body {
 
 /* 动画 */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .fade-in {
-    animation: fadeIn 0.3s ease forwards;
+    animation: fadeIn 0.4s ease forwards;
 }
