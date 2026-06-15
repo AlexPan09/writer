@@ -119,37 +119,31 @@ let answers = [];
 let questions = [];
 let triggerHiddenResult = false; // 标记是否触发隐藏结果
 
-// DOM元素（延迟初始化）
-let elements = null;
-
-// 初始化DOM元素
-function initElements() {
-    elements = {
-        startPage: document.getElementById('startPage'),
-        quizPage: document.getElementById('quizPage'),
-        resultPage: document.getElementById('resultPage'),
-        progressFill: document.getElementById('progressFill'),
-        questionNumber: document.getElementById('questionNumber'),
-        questionText: document.getElementById('questionText'),
-        optionsContainer: document.getElementById('optionsContainer'),
-        prevBtn: document.getElementById('prevBtn'),
-        nextBtn: document.getElementById('nextBtn'),
-        resultContainer: document.getElementById('resultContainer'),
-        hiddenResultContainer: document.getElementById('hiddenResultContainer'),
-        personalityImage: document.getElementById('personalityImage'),
-        personalityName: document.getElementById('personalityName'),
-        personalityDescription: document.getElementById('personalityDescription'),
-        resultTitle: document.getElementById('resultTitle'),
-        hiddenPersonalitySection: document.getElementById('hiddenPersonalitySection'),
-        hiddenPersonalityImage: document.getElementById('hiddenPersonalityImage'),
-        hiddenPersonalityName: document.getElementById('hiddenPersonalityName'),
-        hiddenPersonalityDescription: document.getElementById('hiddenPersonalityDescription')
-    };
-}
+// DOM元素
+const elements = {
+    startPage: document.getElementById('startPage'),
+    quizPage: document.getElementById('quizPage'),
+    resultPage: document.getElementById('resultPage'),
+    progressFill: document.getElementById('progressFill'),
+    questionNumber: document.getElementById('questionNumber'),
+    questionText: document.getElementById('questionText'),
+    optionsContainer: document.getElementById('optionsContainer'),
+    prevBtn: document.getElementById('prevBtn'),
+    nextBtn: document.getElementById('nextBtn'),
+    resultContainer: document.getElementById('resultContainer'),
+    hiddenResultContainer: document.getElementById('hiddenResultContainer'),
+    personalityImage: document.getElementById('personalityImage'),
+    personalityName: document.getElementById('personalityName'),
+    personalityDescription: document.getElementById('personalityDescription'),
+    resultTitle: document.getElementById('resultTitle'),
+    hiddenPersonalitySection: document.getElementById('hiddenPersonalitySection'),
+    hiddenPersonalityImage: document.getElementById('hiddenPersonalityImage'),
+    hiddenPersonalityName: document.getElementById('hiddenPersonalityName'),
+    hiddenPersonalityDescription: document.getElementById('hiddenPersonalityDescription')
+};
 
 // 初始化
 async function init() {
-    initElements();
     await loadQuestions();
     loadFromStorage();
     updateNavigationButtons();
@@ -429,44 +423,11 @@ function restartQuiz() {
     elements.startPage.classList.remove('hidden');
 }
 
-// 保存为图片
-async function saveAsImage() {
-    try {
-        // 隐藏按钮区域
-        const restartBtn = document.querySelector('.restart-btn');
-        const saveBtn = document.querySelector('.save-btn');
-        restartBtn.style.visibility = 'hidden';
-        saveBtn.style.visibility = 'hidden';
-
-        // 使用html2canvas生成图片
-        const canvas = await html2canvas(elements.resultPage, {
-            backgroundColor: '#e0e5ec',
-            scale: 2, // 提高图片质量
-            useCORS: true, // 允许跨域图片
-            logging: false
-        });
-
-        // 恢复按钮显示
-        restartBtn.style.visibility = 'visible';
-        saveBtn.style.visibility = 'visible';
-
-        // 创建下载链接
-        const link = document.createElement('a');
-        link.download = '写作人格测试结果.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-    } catch (error) {
-        console.error('保存图片失败:', error);
-        alert('保存图片失败，请重试');
-    }
-}
-
 // 暴露全局函数供HTML调用
 window.startQuiz = startQuiz;
 window.prevQuestion = prevQuestion;
 window.nextQuestion = nextQuestion;
 window.restartQuiz = restartQuiz;
-window.saveAsImage = saveAsImage;
 window.init = init;
 
 // 页面加载完成后初始化

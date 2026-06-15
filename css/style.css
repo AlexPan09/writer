@@ -466,12 +466,6 @@ body {
     max-width: none;
 }
 
-.save-btn {
-    margin-top: 12px;
-    max-width: none;
-    background: linear-gradient(145deg, #e0e5ec, #d0d5dc);
-}
-
 /* 隐藏类 */
 .hidden {
     display: none !important;
