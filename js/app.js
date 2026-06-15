@@ -25,15 +25,15 @@ const PERSONALITIES = {
         description: "你的写作人格特点为：火人。"
     },
     "蛾人": {
-        image: "./asset/iron-man.png",
+        image: "./asset/moth-person.png",
         description: "你的写作人格特点为：蛾人。"
     },
     "老师": {
-        image: "./asset/iron-man.png",
+        image: "./asset/teacher.png",
         description: "你的写作人格特点为：老师。"
     },
     "导游": {
-        image: "./asset/iron-man.png",
+        image: "./asset/tour-guide.png",
         description: "你的写作人格特点为：导游。\n你有旺盛的精力和表达欲，你明白如何将那些读者游客们带入你的小说世界。你有导游般的职业素养，手握指挥棒般的小旗子，引人入胜地叙述着你精神世界中丰富多彩的一处又一处景观。"
     },
     "蒙眼人": {
@@ -45,7 +45,7 @@ const PERSONALITIES = {
         description: "你的写作人格特点为：鸟人。\n你像蜂鸟一样不知疲倦，你敏锐地捕捉世界的细节，事无巨细地讲述所感知的一切。哪怕他人不理解你，发出这是什么鸟人的攻击话语，你也只会无视这些噪音，继续翱翔于文字的广阔天空。"
     },
     "发条人": {
-        image: "./asset/iron-man.png",
+        image: "./asset/clockwork.png",
         description: "你的写作人格特点为：发条人。\n你知晓达到目标的捷径，也明白如何下笔才能吸引他人的目光，然而你的背后拥有一根很难转动的发条，需要用力拧紧才能短暂驱动。经常拧动发条令你疲惫，你需要常常休息，为自己添加一些心灵的润滑油。"
     },
     "麻花": {
@@ -65,7 +65,7 @@ const PERSONALITIES = {
         description: "你的写作人格特点为：文臣。\n除去书写故事，你也愿意在故事中探讨你的思想，哪怕这种探讨会引起争议，你也愿意做一定的尝试。即使是用不同的故事，不同的讲述方法，你的内核也不会改变。"
     },
     "诗人": {
-        image: "./asset/iron-man.png",
+        image: "./asset/poet.png",
         description: "你的写作人格特点为：诗人。\n你偏好舒展精妙的表达，在感受情绪的同时推敲字句，让你想诉说的东西有更完美的表现方式。你不爱花心思追逐俗世的名头，你相信人类的情绪可以穿越时间的长河，与不同时代的灵魂产生特别的共鸣。"
     },
     "狂战士": {
