@@ -2,7 +2,7 @@
 const CONFIG = {
     STORAGE_KEY: 'writer_personality_test',
     STORAGE_EXPIRE: 24 * 60 * 60 * 1000, // 24小时过期
-    SHARE_URL: 'https://alexpan09.github.io/writer-personality/',
+    SHARE_URL: 'https://alexpan09.github.io/writer',
     CATEGORIES: [
         {
             name: "勤奋/随性",
