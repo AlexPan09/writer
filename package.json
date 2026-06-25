@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "generate:inline-images": "node scripts/generate-inline-images.js"
+  },
   "devDependencies": {
     "playwright": "^1.61.1"
   }
