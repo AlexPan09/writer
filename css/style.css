@@ -269,27 +269,23 @@ body {
     height: 130px;
     border-radius: 50%;
     object-fit: cover;
+    display: block;
     margin-bottom: 14px;
     background: #e0e5ec;
+    box-sizing: border-box;
     box-shadow: 
         8px 8px 16px #b8bec7,
         -8px -8px 16px #ffffff;
 }
 
 .personality-image.rainbow-border {
-    background: linear-gradient(145deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
-    padding: 4px;
+    border: 4px solid transparent;
+    background:
+        linear-gradient(#ffffff, #ffffff) padding-box,
+        conic-gradient(from 20deg, #ff6b6b, #feca57, #48dbfb, #54a0ff, #ff9ff3, #ff6b6b) border-box;
     box-shadow: 
         8px 8px 16px #b8bec7,
         -8px -8px 16px #ffffff;
-}
-
-.personality-image.rainbow-border img {
-    border-radius: 50%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    background: #e0e5ec;
 }
 
 .personality-name {
@@ -348,6 +344,7 @@ body {
     position: relative;
     display: flex;
     align-items: center;
+    overflow: visible;
 }
 
 .bar-side {
@@ -357,6 +354,7 @@ body {
     background: #e0e5ec;
     border-radius: 8px;
     overflow: visible;
+    z-index: 1;
     box-shadow:
         inset 3px 3px 6px #b8bec7,
         inset -3px -3px 6px #ffffff;
@@ -376,6 +374,7 @@ body {
     height: calc(100% - 4px);
     transition: width 0.8s ease;
     width: 0;
+    z-index: 1;
     box-shadow:
         2px 2px 4px rgba(163, 177, 198, 0.5),
         -2px -2px 4px rgba(255, 255, 255, 0.8);
@@ -405,7 +404,7 @@ body {
         3px 3px 6px #b8bec7,
         -3px -3px 6px #ffffff;
     transition: left 0.8s ease, right 0.8s ease, opacity 0.3s ease;
-    z-index: 5;
+    z-index: 20;
     opacity: 0;
 }
 
@@ -604,6 +603,85 @@ body {
 .save-btn {
     margin-top: 14px;
     max-width: none;
+}
+
+.result-capture-host {
+    position: fixed;
+    left: -10000px;
+    top: 0;
+    width: 100%;
+    background: #e0e5ec;
+    pointer-events: none;
+    opacity: 1;
+    z-index: -1;
+}
+
+.result-capture-container {
+    min-height: auto;
+    padding: 32px 24px;
+    box-shadow: none;
+}
+
+.result-capture-page {
+    display: flex !important;
+    animation: none !important;
+    transform: none !important;
+}
+
+.result-capture-page * {
+    animation: none !important;
+    transition: none !important;
+}
+
+.result-capture-page .personality-image,
+.result-capture-page .collapse-btn,
+.result-capture-page .bar-marker {
+    box-shadow:
+        6px 6px 14px rgba(174, 183, 195, 0.78),
+        -6px -6px 14px rgba(255, 255, 255, 0.9);
+}
+
+.result-capture-page .personality-image.rainbow-border {
+    border: 4px solid transparent;
+    background:
+        linear-gradient(#ffffff, #ffffff) padding-box,
+        conic-gradient(from 20deg, #ff6b6b, #feca57, #48dbfb, #54a0ff, #ff9ff3, #ff6b6b) border-box;
+}
+
+.result-capture-page .capture-gradient-avatar {
+    border: 0;
+    background: #ffffff;
+}
+
+.result-capture-page .dimensions-box,
+.result-capture-page .personality-description,
+.result-capture-page .personality-analysis {
+    background: #e4e9f0;
+    border: 1px solid rgba(176, 186, 199, 0.48);
+    border-radius: 14px;
+    box-shadow:
+        0 10px 22px rgba(174, 183, 195, 0.34),
+        0 -4px 12px rgba(255, 255, 255, 0.64);
+}
+
+.result-capture-page .bar-side {
+    background: #d8dee7;
+    border: 1px solid rgba(176, 186, 199, 0.55);
+    box-shadow: none;
+    overflow: visible;
+}
+
+.result-capture-page .bar-fill {
+    box-shadow: none;
+    z-index: 1;
+}
+
+.result-capture-page .bar-marker {
+    z-index: 30;
+}
+
+.result-capture-page .collapse-btn {
+    z-index: 40;
 }
 
 /* 图片预览弹窗 */

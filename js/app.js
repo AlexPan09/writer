@@ -523,8 +523,218 @@ function isWeChat() {
     return ua.indexOf('micromessenger') !== -1;
 }
 
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function waitForNextFrame() {
+    return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+}
+
+async function waitForImages(root) {
+    const images = Array.from(root.querySelectorAll('img'));
+    await Promise.all(images.map(img => {
+        if (img.complete && img.naturalWidth > 0) {
+            return Promise.resolve();
+        }
+
+        if (typeof img.decode === 'function') {
+            return img.decode().catch(() => {});
+        }
+
+        return new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve;
+        });
+    }));
+}
+
+function createConicStops() {
+    return [
+        { offset: 0, color: '#ff6b6b' },
+        { offset: 0.18, color: '#feca57' },
+        { offset: 0.38, color: '#48dbfb' },
+        { offset: 0.6, color: '#54a0ff' },
+        { offset: 0.82, color: '#ff9ff3' },
+        { offset: 1, color: '#ff6b6b' }
+    ];
+}
+
+function drawFallbackConicRing(ctx, center, radius, lineWidth) {
+    const stops = createConicStops();
+    const steps = 180;
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = 'butt';
+
+    for (let i = 0; i < steps; i++) {
+        const start = (i / steps) * Math.PI * 2 - Math.PI / 2;
+        const end = ((i + 1.5) / steps) * Math.PI * 2 - Math.PI / 2;
+        const offset = i / steps;
+        const stop = stops.find((item, index) => {
+            const next = stops[index + 1];
+            return next ? offset >= item.offset && offset <= next.offset : false;
+        }) || stops[0];
+
+        ctx.strokeStyle = stop.color;
+        ctx.beginPath();
+        ctx.arc(center, center, radius - lineWidth / 2, start, end);
+        ctx.stroke();
+    }
+}
+
+function drawAvatarCover(ctx, img, x, y, size) {
+    const srcRatio = img.naturalWidth / img.naturalHeight;
+    let sourceWidth = img.naturalWidth;
+    let sourceHeight = img.naturalHeight;
+    let sourceX = 0;
+    let sourceY = 0;
+
+    if (srcRatio > 1) {
+        sourceWidth = img.naturalHeight;
+        sourceX = (img.naturalWidth - sourceWidth) / 2;
+    } else if (srcRatio < 1) {
+        sourceHeight = img.naturalWidth;
+        sourceY = (img.naturalHeight - sourceHeight) / 2;
+    }
+
+    ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, x, y, size, size);
+}
+
+async function renderGradientAvatar(img) {
+    const rect = img.getBoundingClientRect();
+    const cssSize = Math.max(1, Math.round(rect.width || img.width || 130));
+    const pixelRatio = 2;
+    const size = cssSize * pixelRatio;
+    const ringWidth = 4 * pixelRatio;
+    const center = size / 2;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = size;
+    canvas.height = size;
+    ctx.clearRect(0, 0, size, size);
+
+    if (typeof ctx.createConicGradient === 'function') {
+        const gradient = ctx.createConicGradient(-Math.PI / 2, center, center);
+        createConicStops().forEach(stop => gradient.addColorStop(stop.offset, stop.color));
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = ringWidth;
+        ctx.beginPath();
+        ctx.arc(center, center, center - ringWidth / 2, 0, Math.PI * 2);
+        ctx.stroke();
+    } else {
+        drawFallbackConicRing(ctx, center, center, ringWidth);
+    }
+
+    const innerOffset = ringWidth;
+    const innerSize = size - ringWidth * 2;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(center, center, innerSize / 2, 0, Math.PI * 2);
+    ctx.clip();
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(innerOffset, innerOffset, innerSize, innerSize);
+    drawAvatarCover(ctx, img, innerOffset, innerOffset, innerSize);
+    ctx.restore();
+
+    return canvas.toDataURL('image/png');
+}
+
+async function prepareCaptureAvatars(root) {
+    const rainbowImages = Array.from(root.querySelectorAll('img.rainbow-border'));
+
+    await Promise.all(rainbowImages.map(async img => {
+        const renderedAvatar = await renderGradientAvatar(img);
+        img.src = renderedAvatar;
+        img.removeAttribute('srcset');
+        img.classList.remove('rainbow-border');
+        img.classList.add('capture-gradient-avatar');
+    }));
+}
+
+function getCaptureScale(width, height) {
+    const preferredScale = Math.min(2, window.devicePixelRatio || 2);
+    const maxCanvasArea = 16000000;
+    const preferredArea = width * height * preferredScale * preferredScale;
+
+    if (preferredArea <= maxCanvasArea) {
+        return preferredScale;
+    }
+
+    return Math.max(1, Math.sqrt(maxCanvasArea / (width * height)));
+}
+
+function createResultCaptureNode() {
+    const sourceContainer = document.querySelector('.container');
+    const sourceRect = sourceContainer.getBoundingClientRect();
+    const host = document.createElement('div');
+    host.className = 'result-capture-host';
+
+    const captureContainer = document.createElement('div');
+    captureContainer.className = 'container result-capture-container';
+    captureContainer.style.width = `${Math.round(sourceRect.width)}px`;
+
+    const resultClone = elements.resultPage.cloneNode(true);
+    resultClone.id = 'resultPageCapture';
+    resultClone.classList.remove('fade-in');
+    resultClone.classList.add('result-capture-page');
+    resultClone.style.display = 'flex';
+
+    resultClone.querySelectorAll('[id]').forEach(node => {
+        node.removeAttribute('id');
+    });
+
+    resultClone.querySelectorAll('.restart-btn, .save-btn').forEach(btn => {
+        btn.remove();
+    });
+
+    captureContainer.appendChild(resultClone);
+    host.appendChild(captureContainer);
+    document.body.appendChild(host);
+
+    return { host, captureContainer };
+}
+
+async function canvasToPngDataUrl(canvas) {
+    return canvas.toDataURL('image/png');
+}
+
+function downloadCanvas(canvas, filename) {
+    if (!canvas.toBlob) {
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        return;
+    }
+
+    canvas.toBlob(blob => {
+        if (!blob) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            return;
+        }
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = url;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }, 'image/png');
+}
+
 // 保存结果图片
-function saveResultImage() {
+async function saveResultImage() {
     if (typeof html2canvas === 'undefined') {
         alert('图片生成库加载失败，请刷新页面重试');
         return;
@@ -535,46 +745,61 @@ function saveResultImage() {
     saveBtn.textContent = '生成中...';
     saveBtn.disabled = true;
 
-    const target = elements.resultPage;
-    target.style.transform = 'none';
-    window.scrollTo(0, 0);
+    let captureHost = null;
 
-    setTimeout(() => {
-        html2canvas(target, {
+    try {
+        await wait(350);
+        await waitForImages(elements.resultPage);
+
+        if (document.fonts && document.fonts.ready) {
+            await document.fonts.ready;
+        }
+
+        const capture = createResultCaptureNode();
+        captureHost = capture.host;
+        const target = capture.captureContainer;
+
+        await waitForImages(target);
+        await prepareCaptureAvatars(target);
+        await waitForImages(target);
+        await waitForNextFrame();
+
+        const width = Math.ceil(target.scrollWidth);
+        const height = Math.ceil(target.scrollHeight);
+        const scale = getCaptureScale(width, height);
+
+        const canvas = await html2canvas(target, {
             backgroundColor: '#e0e5ec',
-            scale: 2,
+            scale,
             useCORS: true,
-            allowTaint: true,
-            logging: true,
-            ignoreElements: (element) => {
-                return element.classList.contains('image-modal') || element.classList.contains('save-btn') || element.classList.contains('restart-btn');
-            }
-        }).then(canvas => {
-            console.log('Canvas size:', canvas.width, canvas.height);
-            const imgData = canvas.toDataURL('image/png');
-            console.log('Image data length:', imgData.length);
-            elements.resultImage.src = imgData;
-
-            if (isWeChat()) {
-                elements.imageModal.style.display = 'flex';
-            } else {
-                const link = document.createElement('a');
-                link.download = '写作人格测试结果.png';
-                link.href = imgData;
-                link.click();
-            }
-
-            target.style.transform = '';
-            saveBtn.textContent = originalText;
-            saveBtn.disabled = false;
-        }).catch(err => {
-            console.error('生成图片失败:', err);
-            alert('生成图片失败，请重试');
-            target.style.transform = '';
-            saveBtn.textContent = originalText;
-            saveBtn.disabled = false;
+            allowTaint: false,
+            logging: false,
+            imageTimeout: 15000,
+            width,
+            height,
+            windowWidth: width,
+            windowHeight: height,
+            scrollX: 0,
+            scrollY: 0
         });
-    }, 300);
+
+        if (isWeChat()) {
+            elements.resultImage.src = await canvasToPngDataUrl(canvas);
+            elements.imageModal.style.display = 'flex';
+        } else {
+            downloadCanvas(canvas, '写作人格测试结果.png');
+        }
+    } catch (err) {
+        console.error('生成图片失败:', err);
+        alert('生成图片失败，请重试');
+    } finally {
+        if (captureHost) {
+            captureHost.remove();
+        }
+
+        saveBtn.textContent = originalText;
+        saveBtn.disabled = false;
+    }
 }
 
 // 关闭图片预览弹窗
