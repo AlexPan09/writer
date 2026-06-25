@@ -86,6 +86,10 @@ body {
     color: #aab0ba;
 }
 
+.start-page .ai-declaration {
+    font-size: 12px;
+}
+
 /* 按钮基础样式 - Neumorphism凸起效果 */
 .btn {
     background: #e0e5ec;
@@ -297,22 +301,257 @@ body {
 }
 
 .result-item {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+}
+
+.result-item:last-child {
+    margin-bottom: 0;
+}
+
+/* 维度框 - Neumorphism 凹陷效果 */
+.dimensions-box {
+    background: #e0e5ec;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow:
+        inset 5px 5px 10px #b8bec7,
+        inset -5px -5px 10px #ffffff;
+}
+
+/* 区块框 - Neumorphism 凹陷效果 */
+.section-box {
+    margin-bottom: 28px;
+}
+
+.section-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #5a6c7d;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.result-header .result-label {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+/* 折叠按钮 - 圆形，覆盖在进度条中间 */
+.result-bar-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.bar-side {
+    position: relative;
+    flex: 1;
+    height: 16px;
+    background: #e0e5ec;
+    border-radius: 8px;
+    overflow: visible;
+    box-shadow:
+        inset 3px 3px 6px #b8bec7,
+        inset -3px -3px 6px #ffffff;
+}
+
+.bar-left {
+    margin-right: -6px;
+}
+
+.bar-right {
+    margin-left: -6px;
+}
+
+.bar-fill {
+    position: absolute;
+    top: 2px;
+    height: calc(100% - 4px);
+    transition: width 0.8s ease;
+    width: 0;
+    box-shadow:
+        2px 2px 4px rgba(163, 177, 198, 0.5),
+        -2px -2px 4px rgba(255, 255, 255, 0.8);
+}
+
+/* 左维度条填充 - 从右向左填充，左端半圆 */
+.bar-left .bar-fill.left-fill {
+    right: 0;
+    border-radius: 6px 0 0 6px;
+}
+
+/* 右维度条填充 - 从左向右填充，右端半圆 */
+.bar-right .bar-fill.right-fill {
+    left: 0;
+    border-radius: 0 6px 6px 0;
+}
+
+.bar-marker {
+    position: absolute;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    background: #e0e5ec;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    box-shadow:
+        3px 3px 6px #b8bec7,
+        -3px -3px 6px #ffffff;
+    transition: left 0.8s ease, right 0.8s ease, opacity 0.3s ease;
+    z-index: 5;
+    opacity: 0;
+}
+
+.bar-marker.visible {
+    opacity: 1;
+}
+
+/* 左维度条marker - 初始在最右端（中心侧），随填充向左移动 */
+.bar-left .bar-marker.left-marker {
+    right: 0;
+    border: 2px solid #6a8cbd;
+}
+
+/* 右维度条marker - 初始在最左端（中心侧），随填充向右移动 */
+.bar-right .bar-marker.right-marker {
+    left: 0;
+    border: 2px solid #6a8cbd;
+}
+
+/* 各维度颜色 - 左填充 */
+.category-0 .bar-left .left-fill {
+    background: linear-gradient(145deg, #7ca5d8, #6b94c8);
+}
+.category-0 .bar-right .right-fill {
+    background: linear-gradient(145deg, #a5c8e8, #94b7d8);
+}
+
+.category-1 .bar-left .left-fill {
+    background: linear-gradient(145deg, #d8a57c, #c8946b);
+}
+.category-1 .bar-right .right-fill {
+    background: linear-gradient(145deg, #e8c8a5, #d8b794);
+}
+
+.category-2 .bar-left .left-fill {
+    background: linear-gradient(145deg, #7cd8a5, #6bc894);
+}
+.category-2 .bar-right .right-fill {
+    background: linear-gradient(145deg, #a5e8c8, #94d8b7);
+}
+
+.category-3 .bar-left .left-fill {
+    background: linear-gradient(145deg, #a57cd8, #946bc8);
+}
+.category-3 .bar-right .right-fill {
+    background: linear-gradient(145deg, #c8a5e8, #b794d8);
+}
+
+/* 各维度marker颜色 */
+.category-0 .bar-marker {
+    border-color: #6a8cbd;
+}
+.category-1 .bar-marker {
+    border-color: #c8946b;
+}
+.category-2 .bar-marker {
+    border-color: #6bc894;
+}
+.category-3 .bar-marker {
+    border-color: #946bc8;
+}
+
+.collapse-btn {
+    flex-shrink: 0;
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #e0e5ec;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    z-index: 10;
+    box-shadow:
+        4px 4px 8px #b8bec7,
+        -4px -4px 8px #ffffff;
+    transition: all 0.2s ease;
+}
+
+.collapse-btn:active {
+    box-shadow:
+        inset 3px 3px 6px #b8bec7,
+        inset -3px -3px 6px #ffffff;
+}
+
+.collapse-arrow {
+    font-size: 0.7rem;
+    color: #7a8a9a;
+    transition: transform 0.3s ease;
+    line-height: 1;
+}
+
+.result-item.collapsed .collapse-arrow {
+    transform: rotate(180deg);
+}
+
+.result-item.collapsed .result-description {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.result-description {
+    padding: 8px 0;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: #7a8a9a;
+    text-align: justify;
+    max-height: 500px;
+    opacity: 1;
+    transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+    overflow: hidden;
 }
 
 /* 人格描述区域 - Neumorphism凹陷效果 */
 .personality-description {
     background: #e0e5ec;
-    border-radius: 20px;
-    padding: 24px;
-    margin: 28px 0;
+    border-radius: 16px;
+    padding: 20px;
     font-size: 0.95rem;
     line-height: 1.8;
     color: #5a6c7d;
     text-align: justify;
     box-shadow: 
-        inset 6px 6px 12px #b8bec7,
-        inset -6px -6px 12px #ffffff;
+        inset 4px 4px 8px #b8bec7,
+        inset -4px -4px 8px #ffffff;
+}
+
+/* 结果解析区域 - Neumorphism凹陷效果 */
+.personality-analysis {
+    background: #e0e5ec;
+    border-radius: 16px;
+    padding: 20px;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: #6a7a8a;
+    text-align: justify;
+    box-shadow: 
+        inset 4px 4px 8px #b8bec7,
+        inset -4px -4px 8px #ffffff;
 }
 
 /* 隐藏人格区域 */
@@ -342,7 +581,7 @@ body {
 .result-label {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     font-size: 0.95rem;
 }
 
@@ -357,113 +596,105 @@ body {
     font-weight: 600;
 }
 
-/* 结果进度条 - Neumorphism凹陷效果 */
-.result-bar-container {
-    position: relative;
-    height: 16px;
+.restart-btn {
+    margin-top: 8px;
+    max-width: none;
+}
+
+.save-btn {
+    margin-top: 14px;
+    max-width: none;
+}
+
+/* 图片预览弹窗 */
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.image-modal-content {
     background: #e0e5ec;
-    border-radius: 8px;
-    overflow: visible;
-    box-shadow: 
+    border-radius: 20px;
+    max-width: 420px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow:
+        10px 10px 20px rgba(0, 0, 0, 0.3),
+        -5px -5px 10px rgba(255, 255, 255, 0.1);
+}
+
+.image-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(163, 177, 198, 0.3);
+}
+
+.image-modal-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #5a6c7d;
+}
+
+.image-modal-close {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #e0e5ec;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #7a8a9a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        4px 4px 8px #b8bec7,
+        -4px -4px 8px #ffffff;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.image-modal-close:active {
+    box-shadow:
         inset 3px 3px 6px #b8bec7,
         inset -3px -3px 6px #ffffff;
 }
 
-.result-bar-bg {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: 2px;
-    height: 100%;
-    background: linear-gradient(to bottom, #a0aab5, #c0c8d0);
-    border-radius: 1px;
+.image-modal-body {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
 }
 
-.result-bar-fill {
-    position: absolute;
-    top: 2px;
-    height: calc(100% - 4px);
-    transition: all 0.8s ease;
-    min-width: 0;
-    box-shadow: 
-        2px 2px 4px rgba(163, 177, 198, 0.5),
-        -2px -2px 4px rgba(255, 255, 255, 0.8);
+.image-modal-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow:
+        4px 4px 8px #b8bec7,
+        -4px -4px 8px #ffffff;
 }
 
-/* 勤奋/随性 - 蓝色系 */
-.category-0 .result-bar-fill.positive {
-    left: 50%;
-    width: 0;
-    background: linear-gradient(145deg, #7ca5d8, #6b94c8);
-    border-radius: 0 6px 6px 0;
-}
-.category-0 .result-bar-fill.negative {
-    right: 50%;
-    width: 0;
-    background: linear-gradient(145deg, #a5c8e8, #94b7d8);
-    border-radius: 6px 0 0 6px;
-}
-
-/* 竞争/表达 - 暖色系 */
-.category-1 .result-bar-fill.positive {
-    left: 50%;
-    width: 0;
-    background: linear-gradient(145deg, #d8a57c, #c8946b);
-    border-radius: 0 6px 6px 0;
-}
-.category-1 .result-bar-fill.negative {
-    right: 50%;
-    width: 0;
-    background: linear-gradient(145deg, #e8c8a5, #d8b794);
-    border-radius: 6px 0 0 6px;
-}
-
-/* 方法/直觉 - 绿色系 */
-.category-2 .result-bar-fill.positive {
-    left: 50%;
-    width: 0;
-    background: linear-gradient(145deg, #7cd8a5, #6bc894);
-    border-radius: 0 6px 6px 0;
-}
-.category-2 .result-bar-fill.negative {
-    right: 50%;
-    width: 0;
-    background: linear-gradient(145deg, #a5e8c8, #94d8b7);
-    border-radius: 6px 0 0 6px;
-}
-
-/* 扼要/细腻 - 紫色系 */
-.category-3 .result-bar-fill.positive {
-    left: 50%;
-    width: 0;
-    background: linear-gradient(145deg, #a57cd8, #946bc8);
-    border-radius: 0 6px 6px 0;
-}
-.category-3 .result-bar-fill.negative {
-    right: 50%;
-    width: 0;
-    background: linear-gradient(145deg, #c8a5e8, #b794d8);
-    border-radius: 6px 0 0 6px;
-}
-
-.result-marker {
-    position: absolute;
-    top: 50%;
-    width: 16px;
-    height: 16px;
-    background: #e0e5ec;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    border: 2px solid #6a8cbd;
-    box-shadow: 
-        3px 3px 6px #b8bec7,
-        -3px -3px 6px #ffffff;
-    transition: left 0.8s ease;
-}
-
-.restart-btn {
-    margin-top: auto;
-    max-width: none;
+.image-modal-tip {
+    text-align: center;
+    padding: 12px 20px 20px;
+    font-size: 0.85rem;
+    color: #8899aa;
 }
 
 /* 隐藏类 */

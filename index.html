@@ -18,8 +18,9 @@
                 <p>测试结果仅供娱乐，切勿深究。</p>
                 <p>非官方，不权威，无科学依据，三无产品。</p>
             </div>
+            <p class="ai-declaration">AI声明：文字内容为活人构思及手敲。网页代码由AI生成。</p>
             <button class="btn" onclick="startQuiz()">开始测试</button>
-            <p class="credits">制作人：今朝，AlexPan</p>
+            <p class="credits">制作人：今朝，AlexPan<br>联系邮箱：XZTICZ@163.com</p>
         </div>
 
         <!-- 答题页面 -->
@@ -49,10 +50,24 @@
             </div>
             
             <!-- 进度条区域（非隐藏结局时显示） -->
-            <div id="resultContainer"></div>
+            <div id="dimensionsSection" class="section-box">
+                <div class="section-title">写作维度</div>
+                <div class="dimensions-box">
+                    <div id="resultContainer"></div>
+                </div>
+            </div>
             
             <!-- 人格描述区域 -->
-            <div id="personalityDescription" class="personality-description"></div>
+            <div id="descriptionSection" class="section-box">
+                <div class="section-title">人格描述</div>
+                <div id="personalityDescription" class="personality-description"></div>
+            </div>
+
+            <!-- 结果解析区域 -->
+            <div id="analysisSection" class="section-box">
+                <div class="section-title">结果解析</div>
+                <div id="personalityAnalysis" class="personality-analysis"></div>
+            </div>
             
             <!-- 隐藏人格区域 -->
             <div id="hiddenPersonalitySection" class="hidden-personality-section">
@@ -63,14 +78,44 @@
                     <div id="hiddenPersonalityName" class="personality-name"></div>
                 </div>
                 <!-- 进度条区域（隐藏结局时显示） -->
-                <div id="hiddenResultContainer"></div>
-                <div id="hiddenPersonalityDescription" class="personality-description"></div>
+                <div id="hiddenDimensionsSection" class="section-box">
+                    <div class="section-title">写作维度</div>
+                    <div class="dimensions-box">
+                        <div id="hiddenResultContainer"></div>
+                    </div>
+                </div>
+                <div id="hiddenDescSection" class="section-box">
+                    <div class="section-title">人格描述</div>
+                    <div id="hiddenPersonalityDescription" class="personality-description"></div>
+                </div>
+
+                <!-- 隐藏人格结果解析区域 -->
+                <div id="hiddenAnalysisSection" class="section-box">
+                    <div class="section-title">结果解析</div>
+                    <div id="hiddenPersonalityAnalysis" class="personality-analysis"></div>
+                </div>
             </div>
             
             <button class="btn restart-btn" onclick="restartQuiz()">重新测试</button>
+            <button class="btn btn-secondary save-btn" onclick="saveResultImage()">保存图片</button>
         </div>
     </div>
 
+    <!-- 图片预览弹窗 -->
+    <div class="image-modal" id="imageModal">
+        <div class="image-modal-content">
+            <div class="image-modal-header">
+                <span class="image-modal-title">长按图片保存</span>
+                <button class="image-modal-close" onclick="closeImageModal()">✕</button>
+            </div>
+            <div class="image-modal-body">
+                <img id="resultImage" src="" alt="测试结果">
+            </div>
+            <p class="image-modal-tip">长按图片即可保存到相册</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="./js/app.js"></script>
 </body>
 </html>
